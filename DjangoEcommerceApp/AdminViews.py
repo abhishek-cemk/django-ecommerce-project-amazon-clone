@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
 from DjangoEcommerceApp.models import Categories,SubCategories,CustomUser,MerchantUser,Products,ProductAbout,ProductDetails,ProductMedia,ProductTransaction,ProductTags,StaffUser,CustomerUser
 from django.contrib.messages.views import SuccessMessageMixin
@@ -257,7 +258,7 @@ def file_upload(request):
     file_url=fs.url(filename)
     return HttpResponse('{"location":"'+BASE_URL+''+file_url+'"}')
 
-
+@method_decorator(login_required(login_url ="/admindashboard/admin"), name='dispatch')
 class ProductListView(ListView):
     model=Products
     template_name="admin_templates/product_list.html"
